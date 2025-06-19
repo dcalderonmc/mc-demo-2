@@ -11,11 +11,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
 
-      - name: Install npm
-        uses: npm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda #v4.1.0
-        with:
-          run_install: false
-
       - name: Setup Node
         uses: setup-node@v4.4.0
         with:
@@ -30,7 +25,6 @@ jobs:
         run: npm run lint
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
-
 
   deploy:
     name: Create preview deployment
@@ -53,17 +47,10 @@ jobs:
         uses: neondatabase/create-branch-action@45dc7a8a626b375bdbdabbc0b56ceb28e81b239d #v6.0.1
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          branch_name:
-            preview/pr-${{ github.event.number }}-${{ github.head_ref }}
+          branch_name: preview/pr-${{ github.event.number }}-${{ github.head_ref }}
           database: ${{ secrets.NEON_DATABASE_NAME }}
           role: ${{ secrets.NEON_DATABASE_USERNAME }}
           api_key: ${{ secrets.NEON_API_KEY }}
-
-      # Run migrations
-      - name: Install npm
-        uses: npm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda #v4.1.0
-        with:
-          run_install: false
 
       - name: Setup Node
         uses: setup-node@v4.4
