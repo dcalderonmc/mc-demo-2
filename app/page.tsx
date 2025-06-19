@@ -26,7 +26,7 @@ export default async function Page() {
       }}
     >
       <h1 style={{ fontSize: '2rem', marginBottom: 8, color: '#222' }}>
-        Comments
+        Comment List
       </h1>
       <p style={{ color: '#666', marginBottom: 24 }}>
         Share your thoughts below. All comments are public.
