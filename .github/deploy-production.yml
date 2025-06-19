@@ -1,0 +1,45 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+
+      - name: Install npm
+        uses: npm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda #v4.1.0
+        with:
+          run_install: false
+
+      - name: Setup Node
+        uses: setup-node@v4.4.0
+        with:
+          node-version-file: 'package.json'
+          cache: npm
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      # - name: Run Prisma Migrate
+      #   run: |
+      #     npm prisma migrate deploy
+      #   env:
+      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Deploy to Vercel
+        run: |
+          chmod +x .github/workflows/scripts/build-and-deploy.sh
+          .github/workflows/scripts/build-and-deploy.sh \
+            --environment "production" \
+            --token "${{ secrets.VERCEL_TOKEN }}" \
+            --database "${{ secrets.DATABASE_URL }}" \
+            --org-id "${{ vars.VERCEL_ORG_ID }}" \
+            --project-id "${{ vars.VERCEL_PROJECT_ID }}"
