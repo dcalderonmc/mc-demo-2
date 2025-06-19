@@ -31,7 +31,7 @@ export default async function Page() {
       <p style={{ color: '#666', marginBottom: 24 }}>
         Share your thoughts below. All comments are public.
       </p>
-      <ul style={{ listStyle: 'none', padding: 0, margin: '1rem 0 2rem 0' }}>
+      <ol style={{ listStyle: 'none', padding: 0, margin: '1rem 0 2rem 0' }}>
         {comments.length === 0 ? (
           <li style={{ color: '#aaa', textAlign: 'center', padding: '1rem' }}>
             No comments yet. Be the first!
@@ -56,7 +56,7 @@ export default async function Page() {
             </li>
           ))
         )}
-      </ul>
+      </ol>
       <form
         action={create}
         style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 8 }}
