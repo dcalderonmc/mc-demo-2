@@ -53,7 +53,7 @@ export VERCEL_PROJECT_ID
 
 # Install Dependencies
 echo "Installing dependencies..."
-pnpm install --frozen-lockfile
+npm install
 
 # Create .env file with DB Credentials
 echo "Setting up environment variables..."
@@ -67,7 +67,7 @@ fi
 
 # Pull Vercel Environment Information
 echo "Pulling Vercel environment configuration..."
-pnpm vercel pull --yes --environment="$ENVIRONMENT" --token="$VERCEL_TOKEN"
+npx vercel pull --yes --environment="$ENVIRONMENT" --token="$VERCEL_TOKEN"
 
 # Generate Git-related environment variables
 echo "Generating Git environment variables..."
@@ -98,14 +98,14 @@ fi
 
 # Build Project Artifacts
 echo "Building project artifacts..."
-# Enable corepack to use pnpm specified in package.json
-BUILD_CMD="pnpm vercel build --token=\"$VERCEL_TOKEN\""
+# Enable corepack to use npx specified in package.json
+BUILD_CMD="npx vercel build --token=\"$VERCEL_TOKEN\""
 if [ "$ENVIRONMENT" == "production" ]; then
     BUILD_CMD+=" --prod"
 fi
 NODE_OPTIONS="--max_old_space_size=4096" eval $BUILD_CMD
 # Determine deploy command
-DEPLOY_CMD="pnpm vercel deploy --prebuilt --token=\"$VERCEL_TOKEN\""
+DEPLOY_CMD="npx vercel deploy --prebuilt --token=\"$VERCEL_TOKEN\""
 if [ "$ENVIRONMENT" == "production" ]; then
     DEPLOY_CMD+=" --prod"
 fi
